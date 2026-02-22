@@ -1,5 +1,6 @@
 # User Registration API (Laravel + Redis)
 
+
 ## Архитектурный подход
 
 Проект реализован с использованием **Pragmatic Domain-Oriented Clean Architecture**:
@@ -46,7 +47,13 @@ Infrastructure (Redis Repository, Jobs)
 ### Запуск
 
 ```bash
-docker-compose up --build
+composer install 
+./vendor/bin/sail up --build
+./vendor/bin/sail bash
+
+$ npm i 
+$ npm run build
+$ npm run dev
 ```
 
 После запуска:
