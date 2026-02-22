@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
-use Domains\User\Infrastructure\Repositories\Contracts\UserWriteRepositoryInterface;
-use Domains\User\Infrastructure\Repositories\Redis\UserRedisReadRepository;
-use Domains\User\Infrastructure\Repositories\Contracts\UserReadRepositoryInterface;
-use Domains\User\Infrastructure\Repositories\Redis\UserRedisWriteRepository;
 use Illuminate\Support\ServiceProvider;
+use Infrastructure\Redis\Repositories\UserRepository;
+use Infrastructure\Redis\Repositories\UserWriteRepository;
+use Infrastructure\Repositories\Contracts\UserRepositoryInterface;
+use Infrastructure\Repositories\Contracts\UserWriteRepositoryInterface;
 
 class RepositoryProvider extends ServiceProvider
 {
@@ -15,8 +15,7 @@ class RepositoryProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(UserReadRepositoryInterface::class, UserRedisReadRepository::class);
-        $this->app->bind(UserWriteRepositoryInterface::class, UserRedisWriteRepository::class);
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
     }
 
     /**

@@ -1,10 +1,10 @@
 <?php
 
-namespace Feature\Http\Controllers;
+namespace Tests\Feature\Http\Controllers;
 
-use Domains\User\Infrastructure\Repositories\Redis\UserRedisReadRepository;
-use Domains\User\Infrastructure\Repositories\Redis\UserRedisWriteRepository;
 use Illuminate\Http\UploadedFile;
+use Infrastructure\Redis\Repositories\UserRepository;
+use Infrastructure\Redis\Repositories\UserWriteRepository;
 use Mockery;
 use Storage;
 use Tests\TestCase;
@@ -13,18 +13,6 @@ class UsersControllerTest extends TestCase
 {
     public function test_list_route(): void
     {
-        $this->instance(UserRedisReadRepository::class,
-            Mockery::mock(UserRedisReadRepository::class, static function (Mockery\MockInterface $mock) {
-                $mock->shouldReceive('list')
-                    ->andReturn([
-                        [
-                            'nickname' => 'foo',
-                            'avatar' => 'bar',
-                        ],
-                    ])
-                    ->once();
-            }));
-
         $response = $this->get('/api/users');
         $this->assertTrue($response->json('success'));
         $this->assertArrayHasKey('data', $response->json());
@@ -35,7 +23,7 @@ class UsersControllerTest extends TestCase
         Storage::fake('public');
         $file = UploadedFile::fake()->image('avatar.jpg');
 
-        $this->instance(UserRedisWriteRepository::class, Mockery::mock(UserRedisWriteRepository::class, static function (Mockery\MockInterface $mock) {
+        $this->instance(UserRepository::class, Mockery::mock(UserRepository::class, static function (Mockery\MockInterface $mock) {
             $mock->shouldReceive('save')
                 ->andReturn(false)
                 ->once();
