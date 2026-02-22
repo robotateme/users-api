@@ -1,5 +1,5 @@
 <?php
 
-namespace Domains\User\Service;
+namespace Domains\User\Services;
 
 class UserRegistrationService {}

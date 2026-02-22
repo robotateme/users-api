@@ -24,6 +24,7 @@ class UserRegisterRequest extends FormRequest
     {
         return [
             'nickname' => ['required', 'string', 'max:32'],
+            'metric' => ['required', 'integer', 'max:100', 'min:0'],
             'avatar' => [
                 'required',
                 'image',
