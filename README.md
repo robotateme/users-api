@@ -17,7 +17,7 @@
 ```
 HTTP (Controller)
    ↓
-Application (UseCases, DTO)
+Application (UseCases, DTO, Commands)
    ↓
 Domain (Services, Value Objects)
    ↑
