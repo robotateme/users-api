@@ -1,19 +1,20 @@
 <?php
 declare(strict_types=1);
 
-namespace Domains\User\ValueObjects\Read\ListUsers;
+namespace Domains\User\ValueObjects;
 
 use Domains\User\ValueObjects\Exceptions\AvatarUriValueException;
+use Domains\User\ValueObjects\Exceptions\NicknameValueException;
 use InvalidArgumentException;
 use Webmozart\Assert\Assert;
 
-final class AvatarUri
+final class NickName
 {
     private string $value;
 
     /**
      * @param string|null $value
-     * @throws AvatarUriValueException
+     * @throws NicknameValueException
      */
     public function __construct(?string $value)
     {
@@ -21,7 +22,7 @@ final class AvatarUri
             Assert::string($value);
             Assert::notEmpty($value);
         } catch (InvalidArgumentException $argumentException) {
-            throw new AvatarUriValueException(
+            throw new NicknameValueException(
                 $argumentException->getMessage(),
                 previous: $argumentException,
             );

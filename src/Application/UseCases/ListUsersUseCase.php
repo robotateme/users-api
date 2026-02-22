@@ -7,11 +7,11 @@ namespace Application\UseCases;
 use Application\DTOs\UserReadDTO;
 use Application\UseCases\Exceptions\ApplicationException;
 use ArrayIterator;
+use Domains\User\ValueObjects\AvatarUri;
+use Domains\User\ValueObjects\AvatarUrl;
+use Domains\User\ValueObjects\CreatedAt;
 use Domains\User\ValueObjects\Exceptions\Contracts\UserValueException;
-use Domains\User\ValueObjects\Read\ListUsers\AvatarUri;
-use Domains\User\ValueObjects\Read\ListUsers\AvatarUrl;
-use Domains\User\ValueObjects\Read\ListUsers\CreatedAt;
-use Infrastructure\Providers\LaravelAppUrlProviderInterface;
+use Infrastructure\Providers\LaravelAppUrlProvider;
 use Infrastructure\Redis\RecordObjects\UserRecord;
 use Infrastructure\Repositories\Contracts\UserRepositoryInterface;
 
@@ -19,7 +19,7 @@ class ListUsersUseCase
 {
     public function __construct(
         private readonly UserRepositoryInterface $userRepository,
-        private readonly LaravelAppUrlProviderInterface $appUrlProvider,
+        private readonly LaravelAppUrlProvider   $appUrlProvider,
     ) {}
 
     /**

@@ -5,9 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Enums\UsersKeywordsEnum;
 use App\Http\Requests\UserRegisterRequest;
-use Application\DTOs\UserRegistrationDTO;
-use Application\UseCases\Exceptions\NicknameAlreadyExists;
+use Application\Commands\UserRegistrationCommand;
 use Application\UseCases\Exceptions\ApplicationException;
+use Application\UseCases\Exceptions\NicknameAlreadyExists;
 use Application\UseCases\ListUsersUseCase;
 use Application\UseCases\UserRegistrationUseCase;
 use Illuminate\Http\JsonResponse;
@@ -24,7 +24,7 @@ class UsersController extends Controller
         $fileUri = $request->file('avatar')
             ?->store(UsersKeywordsEnum::AVATAR_STORAGE->value, 'public');
 
-        $dto = Instantiator::instantiate(UserRegistrationDTO::class, [
+        $dto = Instantiator::instantiate(UserRegistrationCommand::class, [
             'avatarUri' => $fileUri,
             'nickname' => $request->get('nickname'),
         ]);
@@ -39,6 +39,11 @@ class UsersController extends Controller
                 'message' => $e->getMessage(),
                 'success' => false,
             ], 409);
+        } catch (ApplicationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
         }
     }
 

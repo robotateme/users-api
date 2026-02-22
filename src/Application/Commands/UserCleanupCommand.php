@@ -1,8 +1,8 @@
 <?php
 
-namespace Application\DTOs;
+namespace Application\Commands;
 
-final readonly class UserCleanupDTO
+final readonly class UserCleanupCommand
 {
     public function __construct(public int $cutoffTimestamp) {}
 }

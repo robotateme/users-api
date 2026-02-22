@@ -27,7 +27,7 @@ Infrastructure (Redis Repository, Jobs)
 
 ## Технологический стек
 
-* PHP 8.2
+* PHP 8.4
 * Laravel (latest)
 * Redis 7
 * Docker / Docker Compose

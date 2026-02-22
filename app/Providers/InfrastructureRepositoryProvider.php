@@ -4,11 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Infrastructure\Redis\Repositories\UserRepository;
-use Infrastructure\Redis\Repositories\UserWriteRepository;
 use Infrastructure\Repositories\Contracts\UserRepositoryInterface;
-use Infrastructure\Repositories\Contracts\UserWriteRepositoryInterface;
 
-class RepositoryProvider extends ServiceProvider
+class InfrastructureRepositoryProvider extends ServiceProvider
 {
     /**
      * Register services.

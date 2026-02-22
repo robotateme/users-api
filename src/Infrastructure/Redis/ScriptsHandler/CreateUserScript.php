@@ -6,18 +6,16 @@ namespace Infrastructure\Redis\ScriptsHandler;
 
 use Infrastructure\Redis\Enums\UserRedisKeysEnum;
 use Infrastructure\Redis\Enums\UserRedisPropertiesEnum;
-use Redis;
+use Infrastructure\Redis\ScriptsHandler\Contracts\AbstractScriptsHandler;
 
-final class CreateUserScript
+final class CreateUserScript extends AbstractScriptsHandler
 {
-    private string $sha;
-
-    public function __construct(private readonly Redis $redis)
-    {
-        $script = file_get_contents(__DIR__.'/Scripts/CreateUser.lua');
-        $this->sha = $this->redis->script('load', $script);
-    }
-
+    /**
+     * @param string $nickname
+     * @param string $avatar
+     * @param int $time
+     * @return bool
+     */
     public function execute(string $nickname, string $avatar, int $time): bool
     {
         return $this->redis->evalSha(

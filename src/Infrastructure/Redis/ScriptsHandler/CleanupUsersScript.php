@@ -5,18 +5,10 @@ declare(strict_types=1);
 namespace Infrastructure\Redis\ScriptsHandler;
 
 use Infrastructure\Redis\Enums\UserRedisKeysEnum;
-use Redis;
+use Infrastructure\Redis\ScriptsHandler\Contracts\AbstractScriptsHandler;
 
-final class CleanupUsersScript
+final class CleanupUsersScript extends AbstractScriptsHandler
 {
-    private string $sha;
-
-    public function __construct(private readonly Redis $redis)
-    {
-        $script = file_get_contents(__DIR__.'/Scripts/CleanupUsers.lua');
-        $this->sha = $this->redis->script('load', $script);
-    }
-
     /**
      * @return mixed
      */

@@ -13,10 +13,17 @@ use Redis;
 
 final class UserRedisClientAdapter implements UserCacheInterface
 {
+    /**
+     * @param Redis $redis
+     */
     public function __construct(
         private readonly Redis $redis
     ) {}
 
+    /**
+     * @param UserRecord $user
+     * @return bool
+     */
     public function save(UserRecord $user): bool
     {
         return new CreateUserScript(
@@ -24,6 +31,10 @@ final class UserRedisClientAdapter implements UserCacheInterface
         )->execute($user->nickname, $user->avatar, $user->createdAt);
     }
 
+    /**
+     * @param string $hashName
+     * @return UserRecord|null
+     */
     public function findByHashName(string $hashName): ?UserRecord
     {
         $data = $this->redis->hGetAll($hashName);
@@ -39,6 +50,9 @@ final class UserRedisClientAdapter implements UserCacheInterface
         );
     }
 
+    /**
+     * @return array
+     */
     public function findAll(): array
     {
         $hashNames = $this->redis->zRange(UserRedisKeysEnum::indexName(), 0, -1);
@@ -47,6 +61,10 @@ final class UserRedisClientAdapter implements UserCacheInterface
 
     }
 
+    /**
+     * @param int $cutoffTimestamp
+     * @return bool
+     */
     public function deleteByTimestamp(int $cutoffTimestamp): bool
     {
         return new CleanupUsersScript($this->redis)->execute($cutoffTimestamp);

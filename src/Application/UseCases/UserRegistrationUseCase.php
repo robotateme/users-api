@@ -2,29 +2,48 @@
 
 namespace Application\UseCases;
 
-use Application\DTOs\UserRegistrationDTO;
+use Application\Commands\UserRegistrationCommand;
+use Application\UseCases\Exceptions\ApplicationException;
 use Application\UseCases\Exceptions\NicknameAlreadyExists;
-use Infrastructure\Redis\RecordObjects\UserRecord;
-use Infrastructure\Redis\Repositories\UserRepository;
+use Domains\User\Exceptions\Contracts\UserDomainException;
+use Domains\User\UserEntity;
+use Domains\User\ValueObjects\AvatarUri;
+use Domains\User\ValueObjects\CreatedAt;
+use Domains\User\ValueObjects\Exceptions\Contracts\UserValueException;
+use Domains\User\ValueObjects\NickName;
+use Infrastructure\Providers\Contracts\TimeProviderInterface;
+use Infrastructure\Repositories\Contracts\UserRepositoryInterface;
 
 class UserRegistrationUseCase
 {
-    public function __construct(private readonly UserRepository $userRedisRepository) {}
+    public function __construct(
+        private readonly UserRepositoryInterface $userRepository,
+        private readonly TimeProviderInterface $clock,
+    ) {}
 
     /**
+     * @param UserRegistrationCommand $userRegistrationDTO
+     * @return bool
+     * @throws ApplicationException
      * @throws NicknameAlreadyExists
      */
-    public function execute(UserRegistrationDTO $userRegistrationDTO): bool
+    public function execute(UserRegistrationCommand $userRegistrationDTO): bool
     {
-        $record = new UserRecord(
-            nickname: $userRegistrationDTO->nickname,
-            avatar: $userRegistrationDTO->avatarUri,
-            createdAt: time()
-        );
-        if (! $this->userRedisRepository->save($record)) {
-            throw new NicknameAlreadyExists;
-        }
+        try {
+            $userEntity = UserEntity::register(
+                nickname: new Nickname($userRegistrationDTO->nickname),
+                avatarUri: new AvatarUri($userRegistrationDTO->avatarUri),
+                createdAt: CreatedAt::fromTimestamp($this->clock->now()),
+            );
 
-        return true;
+            if (! $this->userRepository->register($userEntity)) {
+                throw new NicknameAlreadyExists;
+            }
+
+            return true;
+
+        } catch (UserValueException $exception) {
+            throw new ApplicationException($exception->getMessage(), previous: $exception);
+        }
     }
 }

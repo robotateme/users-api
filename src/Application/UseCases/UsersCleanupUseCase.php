@@ -2,15 +2,19 @@
 
 namespace Application\UseCases;
 
-use Application\DTOs\UserCleanupDTO;
+use Application\Commands\UserCleanupCommand;
 use Infrastructure\Redis\Repositories\UserRepository;
 
 class UsersCleanupUseCase
 {
-    public function __construct(private readonly UserRepository $userReadRepository) {}
+    public function __construct(private readonly UserRepository $userRepository) {}
 
-    public function execute(UserCleanupDTO $dto): void
+    /**
+     * @param UserCleanupCommand $command
+     * @return void
+     */
+    public function execute(UserCleanupCommand $command): void
     {
-        $this->userReadRepository->cleanUp($dto->cutoffTimestamp);
+        $this->userRepository->cleanUp($command->cutoffTimestamp);
     }
 }

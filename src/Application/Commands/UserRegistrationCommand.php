@@ -1,8 +1,8 @@
 <?php
 
-namespace Application\DTOs;
+namespace Application\Commands;
 
-final class UserRegistrationDTO
+final class UserRegistrationCommand
 {
     public function __construct(
         public string $nickname,

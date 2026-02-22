@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace Infrastructure\Repositories\Contracts;
 
-use Infrastructure\Redis\RecordObjects\UserRecord;
+use Domains\User\UserEntity;
 
 interface UserRepositoryInterface
 {
     public function list(): iterable;
 
     /**
-     * @param  UserRecord  $dto
+     * @param UserEntity $user
+     * @return bool
      */
-    public function save(UserRecord $record): bool;
+    public function register(UserEntity $user): bool;
+
+    public function cleanUp(int $cutoffTimestamp): bool;
 }

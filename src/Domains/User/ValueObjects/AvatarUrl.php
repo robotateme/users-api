@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Domains\User\ValueObjects\Read\ListUsers;
+namespace Domains\User\ValueObjects;
 
 use Domains\User\ValueObjects\Exceptions\AvatarUrlValueException;
 use InvalidArgumentException;
