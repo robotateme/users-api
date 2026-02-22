@@ -4,7 +4,6 @@ namespace Tests\Feature\Http\Controllers;
 
 use Illuminate\Http\UploadedFile;
 use Infrastructure\Redis\Repositories\UserRepository;
-use Infrastructure\Redis\Repositories\UserWriteRepository;
 use Mockery;
 use Storage;
 use Tests\TestCase;
@@ -24,7 +23,7 @@ class UsersControllerTest extends TestCase
         $file = UploadedFile::fake()->image('avatar.jpg');
 
         $this->instance(UserRepository::class, Mockery::mock(UserRepository::class, static function (Mockery\MockInterface $mock) {
-            $mock->shouldReceive('save')
+            $mock->shouldReceive('register')
                 ->andReturn(false)
                 ->once();
         }));
