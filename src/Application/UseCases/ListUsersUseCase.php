@@ -19,7 +19,7 @@ class ListUsersUseCase
 {
     public function __construct(
         private readonly UserRepositoryInterface $userRepository,
-        private readonly LaravelAppUrlProvider   $appUrlProvider,
+        private readonly LaravelAppUrlProvider $appUrlProvider,
     ) {}
 
     /**

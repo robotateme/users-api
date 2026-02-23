@@ -7,6 +7,9 @@ use Infrastructure\Redis\Repositories\UserRepository;
 
 class UsersCleanupUseCase
 {
+    /**
+     * @param UserRepository $userRepository
+     */
     public function __construct(private readonly UserRepository $userRepository) {}
 
     /**
