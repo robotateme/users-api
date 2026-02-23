@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
+use Application\Contracts\Repositories\Redis\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 use Infrastructure\Redis\Repositories\UserRepository;
-use Infrastructure\Repositories\Contracts\UserRepositoryInterface;
 
 class InfrastructureRepositoryProvider extends ServiceProvider
 {

@@ -3,6 +3,8 @@
 namespace Application\UseCases;
 
 use Application\Commands\UserRegistrationCommand;
+use Application\Contracts\Providers\TimeProviderInterface;
+use Application\Contracts\Repositories\Redis\UserRepositoryInterface;
 use Application\UseCases\Exceptions\ApplicationException;
 use Application\UseCases\Exceptions\NicknameAlreadyExists;
 use Domains\User\UserEntity;
@@ -10,8 +12,6 @@ use Domains\User\ValueObjects\AvatarUri;
 use Domains\User\ValueObjects\CreatedAt;
 use Domains\User\ValueObjects\Exceptions\Contracts\UserValueException;
 use Domains\User\ValueObjects\NickName;
-use Infrastructure\Providers\Contracts\TimeProviderInterface;
-use Infrastructure\Repositories\Contracts\UserRepositoryInterface;
 
 class UserRegistrationUseCase
 {

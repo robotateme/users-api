@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Infrastructure\Repositories\Contracts;
+namespace Application\Contracts\Repositories\Redis;
 
 use Domains\User\UserEntity;
 

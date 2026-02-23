@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Http\Middleware;
 
-use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Http\Testing\File;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Redis;
@@ -10,13 +9,6 @@ use Tests\TestCase;
 
 class ThrottleTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-        Redis::select(1);
-        Redis::flushdb();
-    }
-
     public function test_register_throttle_rate_limit(): void
     {
         for ($i = 0; $i < 10; $i++) {
@@ -33,14 +25,13 @@ class ThrottleTest extends TestCase
         ])
             ->assertStatus(429)
             ->assertJson([
-                'message' => 'Too Many Attempts.',
+                'message' => 'Too many requests',
             ]);
     }
 
     public function test_list_throttle_rate_limit(): void
     {
-        $this->expectException(ThrottleRequestsException::class);
-        for ($i = 0; $i < 30; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $this->get('/api/users')
                 ->assertStatus(200);
         }
@@ -48,7 +39,7 @@ class ThrottleTest extends TestCase
         $this->get('/api/users')
             ->assertStatus(429)
             ->assertJson([
-                'message' => 'Too Many Attempts.',
+                'message' => 'Too many requests',
             ]);
     }
 

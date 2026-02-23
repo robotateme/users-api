@@ -1,6 +1,6 @@
 <?php
 
-namespace Infrastructure\Providers\Contracts;
+namespace Application\Contracts\Providers;
 
 interface TimeProviderInterface
 {

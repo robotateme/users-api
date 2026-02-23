@@ -2,7 +2,7 @@
 
 namespace Infrastructure\Redis\ScriptsHandler\Contracts;
 
-use Infrastructure\Redis\ScriptsHandler\ScriptContextRule;
+use Infrastructure\Redis\ScriptsHandler\Enums\ScriptContextRule;
 use Redis;
 
 class AbstractScriptsHandler implements ScriptsHandlerInterface

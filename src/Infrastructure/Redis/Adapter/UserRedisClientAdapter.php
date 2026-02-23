@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Infrastructure\Redis\Adapter;
 
-use Infrastructure\Redis\Adapter\Contracts\UserCacheInterface;
+use Application\Contracts\UserCacheInterface;
 use Infrastructure\Redis\Enums\UserRedisKeysEnum;
 use Infrastructure\Redis\RecordObjects\UserRecord;
 use Infrastructure\Redis\ScriptsHandler\CleanupUsersScript;

@@ -2,8 +2,8 @@
 
 namespace Infrastructure\Providers;
 
+use Application\Contracts\Providers\TimeProviderInterface;
 use DateTimeImmutable;
-use Infrastructure\Providers\Contracts\TimeProviderInterface;
 
 class Clock implements TimeProviderInterface
 {

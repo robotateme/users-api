@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Application\UseCases;
 
+use Application\Contracts\Repositories\Redis\UserRepositoryInterface;
 use Application\DTOs\UserReadDTO;
 use Application\UseCases\Exceptions\ApplicationException;
 use ArrayIterator;
@@ -13,7 +14,6 @@ use Domains\User\ValueObjects\CreatedAt;
 use Domains\User\ValueObjects\Exceptions\Contracts\UserValueException;
 use Infrastructure\Providers\LaravelAppUrlProvider;
 use Infrastructure\Redis\RecordObjects\UserRecord;
-use Infrastructure\Repositories\Contracts\UserRepositoryInterface;
 
 class ListUsersUseCase
 {

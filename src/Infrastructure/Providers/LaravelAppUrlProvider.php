@@ -2,7 +2,7 @@
 
 namespace Infrastructure\Providers;
 
-use Infrastructure\Providers\Contracts\AppUrlProviderInterface;
+use Application\Contracts\Providers\AppUrlProviderInterface;
 
 class LaravelAppUrlProvider implements AppUrlProviderInterface
 {

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Infrastructure\Redis\Repositories;
 
+use Application\Contracts\Repositories\Redis\UserRepositoryInterface;
 use ArrayIterator;
 use Domains\User\UserEntity;
 use Illuminate\Contracts\Redis\Factory as RedisFactory;
 use Infrastructure\Redis\Adapter\UserRedisClientAdapter;
 use Infrastructure\Redis\RecordObjects\UserRecord;
-use Infrastructure\Repositories\Contracts\UserRepositoryInterface;
 
 class UserRepository implements UserRepositoryInterface
 {
