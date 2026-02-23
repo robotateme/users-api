@@ -24,15 +24,15 @@ class UsersController extends Controller
         $fileUri = $request->file('avatar')
             ?->store(UsersKeywordsEnum::AVATAR_STORAGE->value, 'public');
 
-        $dto = Instantiator::instantiate(UserRegistrationCommand::class, [
+        $command = Instantiator::instantiate(UserRegistrationCommand::class, [
             'avatarUri' => $fileUri,
             'nickname' => $request->get('nickname'),
         ]);
 
         try {
             return new JsonResponse([
-                'success' => $useCase->execute($dto),
-                'data' => $dto,
+                'success' => $useCase->execute($command),
+                'data' => $command,
             ], 201);
         } catch (NicknameAlreadyExists $e) {
             return response()->json([

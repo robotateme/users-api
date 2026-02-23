@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Domains\User\ValueObjects;
 
-use Domains\User\ValueObjects\Exceptions\AvatarUriValueException;
 use Domains\User\ValueObjects\Exceptions\NicknameValueException;
 use InvalidArgumentException;
 use Webmozart\Assert\Assert;

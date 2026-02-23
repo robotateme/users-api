@@ -8,6 +8,9 @@ use Domains\User\UserEntity;
 
 interface UserRepositoryInterface
 {
+    /**
+     * @return iterable
+     */
     public function list(): iterable;
 
     /**
@@ -16,5 +19,9 @@ interface UserRepositoryInterface
      */
     public function register(UserEntity $user): bool;
 
+    /**
+     * @param int $cutoffTimestamp
+     * @return bool
+     */
     public function cleanUp(int $cutoffTimestamp): bool;
 }

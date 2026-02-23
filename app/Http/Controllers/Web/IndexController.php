@@ -12,6 +12,9 @@ class IndexController extends Controller
 {
     public function __construct(private readonly ListUsersUseCase $listUsersUseCase) {}
 
+    /**
+     * @return Response
+     */
     public function __invoke(): Response
     {
         try {

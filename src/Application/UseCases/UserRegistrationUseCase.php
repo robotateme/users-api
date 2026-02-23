@@ -5,7 +5,6 @@ namespace Application\UseCases;
 use Application\Commands\UserRegistrationCommand;
 use Application\UseCases\Exceptions\ApplicationException;
 use Application\UseCases\Exceptions\NicknameAlreadyExists;
-use Domains\User\Exceptions\Contracts\UserDomainException;
 use Domains\User\UserEntity;
 use Domains\User\ValueObjects\AvatarUri;
 use Domains\User\ValueObjects\CreatedAt;
@@ -22,17 +21,17 @@ class UserRegistrationUseCase
     ) {}
 
     /**
-     * @param UserRegistrationCommand $userRegistrationDTO
+     * @param UserRegistrationCommand $userRegistrationCommand
      * @return bool
      * @throws ApplicationException
      * @throws NicknameAlreadyExists
      */
-    public function execute(UserRegistrationCommand $userRegistrationDTO): bool
+    public function execute(UserRegistrationCommand $userRegistrationCommand): bool
     {
         try {
             $userEntity = UserEntity::register(
-                nickname: new Nickname($userRegistrationDTO->nickname),
-                avatarUri: new AvatarUri($userRegistrationDTO->avatarUri),
+                nickname: new Nickname($userRegistrationCommand->nickname),
+                avatarUri: new AvatarUri($userRegistrationCommand->avatarUri),
                 createdAt: CreatedAt::fromTimestamp($this->clock->now()),
             );
 
