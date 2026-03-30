@@ -1,60 +1,80 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Domains\User;
 
+use Domains\User\Enum\RanksEnum;
+use Domains\User\Services\UserRankPolicyService;
 use Domains\User\ValueObjects\AvatarUri;
 use Domains\User\ValueObjects\CreatedAt;
+use Domains\User\ValueObjects\Metric;
 use Domains\User\ValueObjects\Nickname;
 
-final readonly class UserEntity
+final class UserEntity
 {
-    /**
-     * @param Nickname $nickname
-     * @param AvatarUri $avatarUri
-     * @param CreatedAt $createdAt
-     */
     public function __construct(
-        private Nickname $nickname,
-        private AvatarUri $avatarUri,
-        private CreatedAt $createdAt,
+        private readonly Nickname $nickname,
+        private readonly AvatarUri $avatarUri,
+        private Metric $metric,
+        private RanksEnum $rank,
+        private readonly CreatedAt $createdAt,
+        private ?int $penaltyCap = null,
     ) {}
 
-    /**
-     * @param Nickname $nickname
-     * @param AvatarUri $avatarUri
-     * @param CreatedAt $createdAt
-     * @return self
-     */
     public static function register(
         Nickname $nickname,
         AvatarUri $avatarUri,
-        CreatedAt $createdAt
+        Metric $metric,
+        RanksEnum $rank,
+        CreatedAt $createdAt,
+        ?int $penaltyCap = null
     ): self {
-        return new self($nickname, $avatarUri, $createdAt);
+        return new self($nickname, $avatarUri, $metric, $rank, $createdAt, $penaltyCap);
     }
 
-    /**
-     * @return Nickname
-     */
+    public function applyMerit(int $value): void
+    {
+        $max = UserRankPolicyService::maxAllowedFor($this->rank, $this->penaltyCap);
+
+        $this->metric = $this->metric->increase($value, $max);
+        $this->rank = UserRankPolicyService::determineRank($this->metric);
+    }
+
+    public function applyPenalty(int $value, int $newCap): void
+    {
+        $this->metric = $this->metric->decrease($value);
+        $this->penaltyCap = $newCap;
+        $this->rank = UserRankPolicyService::determineRank($this->metric);
+    }
+
     public function getNickname(): Nickname
     {
         return $this->nickname;
     }
 
-    /**
-     * @return AvatarUri
-     */
     public function getAvatarUri(): AvatarUri
     {
         return $this->avatarUri;
     }
 
-    /**
-     * @return CreatedAt
-     */
     public function getCreatedAt(): CreatedAt
     {
         return $this->createdAt;
+    }
+
+    public function getMetric(): Metric
+    {
+        return $this->metric;
+    }
+
+    public function getRank(): RanksEnum
+    {
+        return $this->rank;
+    }
+
+    public function getPenaltyCap(): ?int
+    {
+        return $this->penaltyCap;
     }
 }

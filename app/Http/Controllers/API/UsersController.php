@@ -26,7 +26,8 @@ class UsersController extends Controller
 
         $command = Instantiator::instantiate(UserRegistrationCommand::class, [
             'avatarUri' => $fileUri,
-            'nickname' => $request->get('nickname'),
+            'nickname' => $request->input('nickname'),
+            'metric' => $request->input('metric'),
         ]);
 
         try {

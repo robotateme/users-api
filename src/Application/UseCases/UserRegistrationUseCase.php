@@ -7,10 +7,12 @@ use Application\Contracts\Providers\TimeProviderInterface;
 use Application\Contracts\Repositories\Redis\UserRepositoryInterface;
 use Application\UseCases\Exceptions\ApplicationException;
 use Application\UseCases\Exceptions\NicknameAlreadyExists;
+use Domains\User\Services\UserRankPolicyService;
 use Domains\User\UserEntity;
 use Domains\User\ValueObjects\AvatarUri;
 use Domains\User\ValueObjects\CreatedAt;
 use Domains\User\ValueObjects\Exceptions\Contracts\UserValueException;
+use Domains\User\ValueObjects\Metric;
 use Domains\User\ValueObjects\NickName;
 
 class UserRegistrationUseCase
@@ -32,7 +34,9 @@ class UserRegistrationUseCase
             $userEntity = UserEntity::register(
                 nickname: new Nickname($userRegistrationCommand->nickname),
                 avatarUri: new AvatarUri($userRegistrationCommand->avatarUri),
-                createdAt: CreatedAt::fromTimestamp($this->clock->now()),
+                metric: Metric::fromInt($userRegistrationCommand->metric),
+                rank: UserRankPolicyService::determineRank(Metric::fromInt($userRegistrationCommand->metric)),
+                createdAt: CreatedAt::fromTimestamp($this->clock->now())
             );
 
             if (! $this->userRepository->register($userEntity)) {
